@@ -1,0 +1,19 @@
+{
+  "name": "project-movie-booking-backend-app",
+  "version": "1.0.0",
+  "description": "This is a backend API application for Movie Booking, similar to BMS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon index.js"
+  },
+  "author": "Sanket Singh",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.3",
+    "nodemon": "^2.0.19"
+  }
+}
