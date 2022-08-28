@@ -8,6 +8,11 @@ const routes = (app) => {
         MovieMiddlewares.validateMovieCreateRequest,
         MovieController.createMovie
     );
+
+    app.delete(
+        '/mba/api/v1/movies/:movieId',
+        MovieController.deleteMovie
+    );
 }
 
 module.exports = routes;
