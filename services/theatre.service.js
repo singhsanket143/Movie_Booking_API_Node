@@ -132,10 +132,43 @@ const updateTheatre = async (id, data) => {
     }
 }
 
+/**
+ * 
+ * @param theatreId -> unique id of the theatre for which we want to update movies
+ * @param movieIds -> array of movie ids that are expected to be updated in theatre
+ * @param insert -> boolean that tells whether we want insert movies or remove them
+ * @returns -> updated theatre object
+ */
+const updateMoviesInTheatres = async (theatreId, movieIds, insert) => {
+    const theatre = await Theatre.findById(theatreId);
+    if(!theatre) {
+        return {
+            err: "No such theatre found for the id provided",
+            code: 404
+        };
+    }
+    if (insert) {
+        // we need to add movies
+        movieIds.forEach(movieId => {
+            theatre.movies.push(movieId);
+        });
+    } else {
+        // we need to remove movies
+        let savedMovieIds = theatre.movies;
+        movieIds.forEach(movieId => {
+            savedMovieIds = savedMovieIds.filter(smi => smi == movieId);
+        });
+        theatre.movies = savedMovieIds;
+    }
+    await theatre.save();
+    return theatre.populate('movies');
+}
+
 module.exports = {
     createTheatre,
     deleteTheatre,
     getTheatre,
     getAllTheatres,
-    updateTheatre
+    updateTheatre,
+    updateMoviesInTheatres
 }
