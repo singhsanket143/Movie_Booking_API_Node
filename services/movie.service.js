@@ -33,9 +33,9 @@ const deleteMovie = async (id) => {
     try {
         const response = await Movie.findByIdAndDelete(id);
         if(!response) {
-            return {
+            throw {
                 err: "No movie record found for the id provided",
-                code: 404
+                code: STATUS.NOT_FOUND
             }
         }
         return response
