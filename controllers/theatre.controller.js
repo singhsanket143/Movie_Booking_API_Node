@@ -85,49 +85,48 @@ const updateMovies = async (req, res) => {
             req.body.movieIds,
             req.body.insert
         );
-        if(response.err) {
-            errorResponseBody.err = response.err;
-            return res.status(response.code).json(errorResponseBody);
-        }
         successResponseBody.data = response;
         successResponseBody.message = "Successfully updated movies in the theatre";
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.OK).json(successResponseBody);
     } catch (error) {
-        console.log(error);
+        if(error.err) {
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
         errorResponseBody.err = error;
-        return res.status(500).json(errorResponseBody);
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
     }
 }
 
 const getMovies = async (req, res) => {
     try {
         const response = await theatreService.getMoviesInATheatre(req.params.id);
-        if(response.err) {
-            errorResponseBody.err = response.err;
-            return res.status(response.code).json(errorResponseBody);
-        }
         successResponseBody.data = response;
         successResponseBody.message = "Successfully fetched the movies for the theatre";
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.OK).json(successResponseBody);
     } catch (error) {
+        if(error.err) {
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
         errorResponseBody.err = error;
-        return res.status(500).json(errorResponseBody);
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
     }
 }
 
 const checkMovie = async (req, res) => {
     try {
         const response = await theatreService.checkMovieInATheatre(req.params.theatreId, req.params.movieId);
-        if(response.err) {
-            errorResponseBody.err = response.err;
-            return res.status(response.status).json(errorResponseBody);
-        }
         successResponseBody.data = response;
         successResponseBody.message = "Successfully checked if movie is present in the theatre";
-        return res.status(200).json(successResponseBody);
+        return res.status(STATUS.OK).json(successResponseBody);
     } catch (error) {
+        if(error.err) {
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
         errorResponseBody.err = error;
-        return res.status(500).json(errorResponseBody);
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
     }
 }
 
