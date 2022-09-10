@@ -31,12 +31,16 @@ const routes = (app) => {
     // READ
     app.put(
         '/mba/api/v1/movies/:id',
+        authMiddlewares.isAuthenticated,
+        authMiddlewares.isAdminOrClient,
         movieController.updateMovie
     );
 
     // UPDATE
     app.patch(
         '/mba/api/v1/movies/:id',
+        authMiddlewares.isAuthenticated,
+        authMiddlewares.isAdminOrClient,
         movieController.updateMovie
     );
 
