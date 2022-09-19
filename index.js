@@ -8,6 +8,7 @@ const theatreRoutes = require('./routes/theatre.routes');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const bookingRoutes = require('./routes/booking.routes');
+const showRoutes = require('./routes/show.routes');
 
 env.config();
 const app = express(); // express app object
@@ -23,6 +24,7 @@ theatreRoutes(app); // invoking theatre routes
 authRoutes(app); // invoking auth routes
 userRoutes(app); // invoking user routes
 bookingRoutes(app); // invoking booking routes
+showRoutes(app); // invoking show routes
 
 app.listen(process.env.PORT, async () => {
     // this callback gets execcuted, once we successfully start the server on the given port
