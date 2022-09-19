@@ -19,6 +19,24 @@ const create = async (req, res) => {
     }
 }
 
+const update = async (req, res) => {
+    try {
+        const response = await bookingService.updateBooking(req.body, req.params.id);
+        successResponseBody.data = response;
+        successResponseBody.message = "Successfully updated the booking";
+        return res.status(STATUS.OK).json(successResponseBody);
+    } catch (error) {
+        if(error.err) {
+            errorResponseBody.err = error.err;
+            return res.status(error.code).json(errorResponseBody);
+        }
+        console.log(error);
+        errorResponseBody.err = error;
+        return res.status(STATUS.INTERNAL_SERVER_ERROR).json(errorResponseBody);
+    }
+}
+
 module.exports = {
-    create
+    create,
+    update
 }
