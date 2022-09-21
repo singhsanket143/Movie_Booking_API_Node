@@ -18,13 +18,16 @@ const STATUS_CODES = {
     NOT_FOUND: 404,
     BAD_REQUEST: 400,
     FORBIDDEN: 403,
-    UNPROCESSABLE_ENTITY: 422
+    UNPROCESSABLE_ENTITY: 422,
+    GONE: 410,
+    PAYMENT_REQUIRED: 402
 }
 
 const BOOKING_STATUS = {
     cancelled: "CANCELLED",
     successfull: "SUCCESSFULL",
-    processing: "IN_PROCESS"
+    processing: "IN_PROCESS",
+    expired: "EXPIRED"
 }
 
 const PAYMENT_STATUS = {
