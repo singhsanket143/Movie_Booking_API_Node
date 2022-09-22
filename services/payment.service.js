@@ -1,11 +1,17 @@
 const Payment = require('../models/payment.model');
 const Booking = require('../models/booking.model');
+const Show = require('../models/show.model');
 const User = require('../models/user.model');
 const { STATUS, BOOKING_STATUS, PAYMENT_STATUS, USER_ROLE } = require('../utils/constants');
 
 const createPayment = async (data) => {
     try {
         const booking = await Booking.findById(data.bookingId);
+        const show = await Show.findOne({
+            movieId: booking.movieId,
+            theatreId: booking.theatreId,
+            timing: booking.timing
+        });
         if(booking.status == BOOKING_STATUS.successfull) {
             throw {
                 err: 'Booking already done, cannot make a new payment against it',
@@ -44,6 +50,8 @@ const createPayment = async (data) => {
         }
         payment.status = PAYMENT_STATUS.success;
         booking.status = BOOKING_STATUS.successfull;
+        show.noOfSeats -= booking.noOfSeats;
+        await show.save();
         await booking.save();
         await payment.save();
         return booking;
