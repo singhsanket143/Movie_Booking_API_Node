@@ -1,12 +1,19 @@
 const theatreService = require('../services/theatre.service');
 const { successResponseBody, errorResponseBody} = require('../utils/responsebody');
 const { STATUS } = require('../utils/constants');
+const sendMail = require('../services/email.service');
+
 
 const create = async (req, res) => {
     try {
         const response = await theatreService.createTheatre({...req.body, owner: req.user});
         successResponseBody.data = response;
         successResponseBody.message = "Successfully created the theatre"
+        sendMail(
+            'Successfully created a theatre',
+            req.user,
+            'You have successfully created a new theatre'
+        )
         return res.status(STATUS.CREATED).json(successResponseBody);
     } catch (error) {
         if(error.err) {
