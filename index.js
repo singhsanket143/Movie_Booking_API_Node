@@ -28,6 +28,10 @@ bookingRoutes(app); // invoking booking routes
 showRoutes(app); // invoking show routes
 paymentRoutes(app); // invoking payment routes
 
+app.get('/', (req, res) => {
+    res.send('Home');
+})
+
 app.listen(process.env.PORT, async () => {
     // this callback gets execcuted, once we successfully start the server on the given port
     console.log(`Server started on Port ${process.env.PORT} !!`);
