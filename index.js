@@ -1,6 +1,7 @@
 const express = require('express'); // cmnt
 const bodyParser = require('body-parser');
 const env = require('dotenv');
+const cors = require('cors')
 const mongoose = require('mongoose');
 
 const MovieRoutes = require('./routes/movie.routes');
@@ -13,6 +14,8 @@ const paymentRoutes = require('./routes/payment.routes');
 
 env.config();
 const app = express(); // express app object
+
+app.use(cors())
 
 // configuring body parser
 app.use(bodyParser.urlencoded({extended: true}));
