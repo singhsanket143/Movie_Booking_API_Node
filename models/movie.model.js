@@ -40,6 +40,10 @@ const movieSchema = new mongoose.Schema({
         required: true,
         default: "RELEASED",
     },
+    poster: {
+        type: String,
+        required: true,
+    }
 }, {timestamps: true});
 
 const Movie = mongoose.model('Movie', movieSchema); // creates a new model

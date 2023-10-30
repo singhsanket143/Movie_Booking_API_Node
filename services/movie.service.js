@@ -8,7 +8,7 @@ const { STATUS } = require('../utils/constants');
  */
 const createMovie = async (data) => {
     try {
-        const movie = await Movie.create(data);
+        const movie = await Movie.create(data );
         return movie;
     } catch (error) {
         if(error.name == 'ValidationError') {
