@@ -25,11 +25,11 @@ const create = async (req, res) => {
         successResponseBody.data = response;
         successResponseBody.message = 'Booking completed successfully';
         console.log(response, process.env.NOTI_SERVICE);
-        sendMail(
-            'Your booking is Successfull', 
-            response.userId,
-            `Your booking for ${movie.name} in ${theatre.name} for ${response.noOfSeats} seats on ${response.timing} is successfull. Your booking id is ${response.id}`
-        );
+        // sendMail(
+        //     'Your booking is Successfull', 
+        //     response.userId,
+        //     `Your booking for ${movie.name} in ${theatre.name} for ${response.noOfSeats} seats on ${response.timing} is successfull. Your booking id is ${response.id}`
+        // );
 
         return res.status(STATUS.OK).json(successResponseBody);
     } catch (error) {

@@ -8,13 +8,14 @@ const createBooking = async (data) => {
         const show = await Show.findOne({
             movieId: data.movieId, 
             theatreId: data.theatreId, 
-            timing: data.timing
+            _id: data.showId
         });
+        console.log(data);
         console.log(show.price, data.noOfSeats);
         data.totalCost = data.noOfSeats*show.price;
         const response = await Booking.create(data);
         await show.save();
-        return response;
+        return response.populate('movieId theatreId');
     } catch (error) {
         console.log(error);
         if(error.name == 'ValidationError') {

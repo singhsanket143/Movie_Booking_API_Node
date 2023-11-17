@@ -39,7 +39,7 @@ const bookingSchema = new mongoose.Schema({
         },
         default: BOOKING_STATUS.processing
     },
-    seats: {
+    seat: {
         type: String,
     }
 }, {timestamps: true});

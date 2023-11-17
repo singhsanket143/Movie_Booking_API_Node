@@ -11,7 +11,7 @@ const createPayment = async (data) => {
         const show = await Show.findOne({
             movieId: booking.movieId,
             theatreId: booking.theatreId,
-            timing: booking.timing
+            showId: data.showId
         });
         if(booking.status == BOOKING_STATUS.successfull) {
             throw {
@@ -51,13 +51,38 @@ const createPayment = async (data) => {
         }
         payment.status = PAYMENT_STATUS.success;
         booking.status = BOOKING_STATUS.successfull;
+        console.log(show, booking)
         show.noOfSeats -= booking.noOfSeats;
+
+        if(show.seatConfiguration) {
+            const showSeatConfig = JSON.parse(show.seatConfiguration.replaceAll("'", '"'));
+            const bookedSeats = JSON.parse(booking.seat.replaceAll("'", '"'));
+            const bookedSeatsMap = {};
+            bookedSeats.forEach((seats) => {
+                if(!bookedSeatsMap[seats.rowNumber]) {
+                    bookedSeatsMap[seats.rowNumber] = new Set();
+                }
+                bookedSeatsMap[seats.rowNumber].add(seats.seatNumber);
+            });
+            showSeatConfig.rows.forEach((row) => {
+                if(bookedSeatsMap[row.number]) {
+                    row.seats = row.seats.map((seat) => {
+                        if(bookedSeatsMap[row.number].has(seat.number)) {
+                            seat.status = 2;
+                        }
+                        return seat;
+                    })
+                }
+            });
+            show.seatConfiguration = JSON.stringify(showSeatConfig).replaceAll('"', "'");
+        }
+
         await show.save();
         await booking.save();
         await payment.save();
         return booking;
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         throw error;
     }
 }
